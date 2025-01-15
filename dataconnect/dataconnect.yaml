@@ -1,0 +1,12 @@
+specVersion: "v1beta"
+serviceId: "Groat.io"
+location: "us-central1"
+schema:
+  source: "./schema"
+  datasource:
+    postgresql:
+      database: "fdcdb"
+      cloudSql:
+        instanceId: "Groat.io-fdc"
+      # schemaValidation: "COMPATIBLE"
+connectorDirs: ["./connector"]

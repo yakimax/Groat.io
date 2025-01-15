@@ -12,9 +12,11 @@
   "dependencies": {
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
+    "@firebasegen/default-connector": "file:dataconnect-generated/js/default-connector",
     "@mui/icons-material": "^6.3.1",
     "@mui/joy": "^5.0.0-beta.51",
     "@mui/material": "^6.3.1",
+    "firebase": "^11.1.0",
     "groat-io": "file:",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
