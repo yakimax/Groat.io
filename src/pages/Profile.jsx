@@ -7,11 +7,14 @@ import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import GppMaybeIcon from '@mui/icons-material/GppMaybe';
 import { Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-
+import { ContextWrapper } from '../Context/ContextWrapper.js'
+import { useContext } from 'react'
 function Profile() {
   const navigate = useNavigate();
   const [name,setName] = useState('John Doe');
   const [email,setEmail] = useState('john.doe@example.com');
+  const {user} = useContext(ContextWrapper);
+  console.log(user.reloadUserInfo.email);
   return (
     <Box sx={{ 
       marginTop: '100px',
@@ -34,10 +37,10 @@ function Profile() {
         }}
       />
         <Typography variant="h5" sx={{ fontWeight: 'bold',fontSize:'30px' }}>
-           {name}
+           {user.reloadUserInfo.email}
         </Typography>
         <Typography variant="body1" color="text.secondary">
-          {email}
+          {user.reloadUserInfo.email}
         </Typography>
       <Stack spacing={2} sx={{ width: '100%' }}>
         <Button 

@@ -8,29 +8,41 @@ import { InputAdornment } from '@mui/material'
 import { IconButton } from '@mui/material'
 import { Visibility } from '@mui/icons-material'
 import { VisibilityOff } from '@mui/icons-material'
-import { useState } from 'react'
+import { useState,useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { Divider } from '@mui/material'
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import auth from '../Firebase/FirebaseConfig.js'
+import { useNavigate } from 'react-router-dom';
+import { ContextWrapper } from '../Context/ContextWrapper.js'
+import { useContext } from 'react'
+
 
 function Login() {
   const [showPassword, setShowPassword] = useState(true);
   const [email,setEmail] = useState('');
   const [password,setPassword] = useState('');
-  console.log(email);
+  const {user,setUser} = useContext(ContextWrapper);
+  const navigate = useNavigate();
+
+
   const handleClickShowPassword = () => setShowPassword((showPassword) => !showPassword);
-  useEffect(async ()=>{
-    const auth = getAuth();
-    await createUserWithEmailAndPassword(auth, email, password)
+  const handleSignIn = async ()=>{
+     await signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         const user = userCredential.user;
+        console.log(user.uid);
+        if(user.uid!==null){
+          setUser(user);
+          navigate("/");
+        }
       })
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
-        // ..
+        alert(errorCode,errorMessage);
       });
-  },[])
+  }
   return (
     <div style={{backgroundColor:"#000000",height:"100vh",width:"100vw",position:"absolute",top:"0", left:"0", right:"0" }}>
       <Box sx={{display:"flex", justifyContent:"center",flexDirection:"column" ,position:"absolute",top:"0", left:"0", right:"0" }}>
@@ -76,9 +88,13 @@ function Login() {
           onChange={(e)=>{setPassword(e.target.value)}}
           />
 
-          <Button variant="contained"
-           sx={{marginTop:"20px",backgroundColor:"#1373c2",borderRadius:"26px",width:"72rem",height:"50px",fontWeight:"bold",fontSize:"1.5rem"}}
-           >Sign In</Button>
+          <Button 
+            variant="contained"
+            sx={{marginTop:"20px",backgroundColor:"#1373c2",borderRadius:"26px",width:"72rem",height:"50px",fontWeight:"bold",fontSize:"1.5rem"}}
+            onClick={handleSignIn}
+          >
+            Sign In
+           </Button>
            <Typography variant="h6" sx={{marginTop:"20px"}}> <Link style={{color:"white"}} to="/frgtpass">Forgot Password?</Link></Typography>
         </Paper>
         <Divider sx={{"&::before, &::after": { borderColor: "#2c2c2c" },marginTop:"20px",maxWidth:"71rem",marginLeft:"5vw",paddingTop:"15px"}}>OR</Divider>
