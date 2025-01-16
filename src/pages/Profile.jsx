@@ -2,19 +2,32 @@ import React from 'react';
 import { Box, Stack, Button, Avatar } from '@mui/material';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import GppMaybeIcon from '@mui/icons-material/GppMaybe';
 import { Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { ContextWrapper } from '../Context/ContextWrapper.js'
 import { useContext } from 'react'
+import { db } from '../Firebase/FirebaseConfig.js';
+import { doc, getDoc } from 'firebase/firestore';
+
 function Profile() {
   const navigate = useNavigate();
   const [name,setName] = useState('John Doe');
   const [email,setEmail] = useState('john.doe@example.com');
   const {user} = useContext(ContextWrapper);
-  console.log(user.reloadUserInfo.email);
+  // console.log(user.reloadUserInfo.email);
+  useEffect(()=>{
+    async function fetchData(){
+    const userRef = doc(db,"UserInfo",user.uid);
+    const userData = await getDoc(userRef);
+    // console.log(userData.data());
+    setName(userData.data().Name);
+    setEmail(userData.Email);
+    }
+    fetchData();
+  },[user]);
   return (
     <Box sx={{ 
       marginTop: '100px',
@@ -37,7 +50,7 @@ function Profile() {
         }}
       />
         <Typography variant="h5" sx={{ fontWeight: 'bold',fontSize:'30px' }}>
-           {user.reloadUserInfo.email}
+           {name}
         </Typography>
         <Typography variant="body1" color="text.secondary">
           {user.reloadUserInfo.email}
