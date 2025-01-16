@@ -14,7 +14,8 @@ import { createUserWithEmailAndPassword } from 'firebase/auth';
 import auth from '../Firebase/FirebaseConfig.js';
 import { ContextWrapper } from '../Context/ContextWrapper.js';
 import { useContext } from 'react';
-
+import { db } from '../Firebase/FirebaseConfig.js';
+import { doc, setDoc } from 'firebase/firestore';
 function Signup() {
   const {setUser} = useContext(ContextWrapper);
   const [showPassword, setShowPassword] = useState(false);
@@ -33,6 +34,12 @@ function Signup() {
     }
     const userCredential = await createUserWithEmailAndPassword(auth,email,password);
     setUser(userCredential.user);
+    const userRef = doc(db,"UserInfo",userCredential.user.uid);
+    await setDoc(userRef,{
+      fullName: fullName,
+      email: email,
+      uid: userCredential.user.uid
+    });
     navigate("/");
   }
   return (
