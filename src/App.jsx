@@ -15,9 +15,9 @@ import NotFound from './pages/NotFound.jsx'
 function App() {
   const [user,setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-
+  const [value, setValue] = useState('Lecture');
   return (
-    <ContextWrapper.Provider value={{user,setUser,loading,setLoading}}>
+    <ContextWrapper.Provider value={{user,setUser,loading,setLoading,value,setValue}}>
     <BrowserRouter>
       <Routes>
         <Route element={<ProtectedRoute/>}>

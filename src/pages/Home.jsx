@@ -10,15 +10,17 @@ import PersonIcon from '@mui/icons-material/Person';
 import Catalog from './Catalog';
 import Lecture from './Lecture';
 import Profile from './Profile';
+import { ContextWrapper } from '../Context/ContextWrapper.js';
+import { useContext } from 'react';
+
 
 function Home() {
-    const [value, setValue] = React.useState('Lecture');
     const darkTheme = createTheme({
       palette: {
         mode: 'dark',
       },
     });
-    console.log(value);
+    const {value,setValue} = React.useContext(ContextWrapper);
   return (
   <ThemeProvider theme={darkTheme}>
     <CssBaseline /> 

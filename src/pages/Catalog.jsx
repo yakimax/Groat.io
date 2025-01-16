@@ -2,14 +2,21 @@ import React from 'react';
 import { Box, Typography, Card, CardContent ,CardMedia,TextField} from '@mui/material';
 import Grid from '@mui/material/Grid2';
 import img from '../assets/img.png'
+import { useNavigate } from 'react-router-dom';
+import { ContextWrapper } from '../Context/ContextWrapper.js';
+import { useContext, useEffect } from 'react';
 
 export default function Catalog() {
-
+  const navigate = useNavigate();
+  const {value,setValue} = React.useContext(ContextWrapper);
   const courses = [
     { id: 1, title: 'Introduction to Programming', description: 'Learn the basics of programming' },
     { id: 2, title: 'Web Development', description: 'Full stack web development course' },
     { id: 3, title: 'Data Structures', description: 'Understanding fundamental data structures' },
   ];
+  useEffect(()=>{
+    console.log(value);
+  },[value])
 
   return (
     <Box sx={{
@@ -60,7 +67,7 @@ export default function Catalog() {
       />
       <Grid container spacing={2} columns={12}>
         {courses.map((course) => (
-          <Grid size={{xs:12}} key={course.id}>
+          <Grid onClick={()=>{setValue('Lecture')}} size={{xs:12}} key={course.id}>
             <Card sx={{ 
               height: '100%',
               display: 'flex',
