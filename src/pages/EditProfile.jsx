@@ -21,7 +21,7 @@ function EditProfile() {
     async function fetchData(){
     const userRef = doc(db,"UserInfo",user.uid);
     const userData = await getDoc(userRef);
-    console.log(userData.data());
+    // console.log(userData.data());
     setName(userData.data().Name);
     setMobile(userData.data().MobileNo);
     }
